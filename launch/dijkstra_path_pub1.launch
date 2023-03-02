@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="beginner_tutorials" type="mgeo_pub.py" name="mgeo_pub"  />
+    <node pkg="beginner_tutorials" type="gpsimu_parser.py" name="gpsimu_parser" />
+    <node pkg="beginner_tutorials" type="mgeo_dijkstra_path_1.py" name="mgeo_dijkstra_path"  />
+    <node pkg="beginner_tutorials" type="local_path_pub.py" name="local_path_pub" />
+    <node pkg="beginner_tutorials" type="tf_pub.py" name="tf"  />
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find beginner_tutorials)/rviz/kcity_rviz.rviz" />
+</launch>

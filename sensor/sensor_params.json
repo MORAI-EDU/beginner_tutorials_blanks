@@ -1,0 +1,16 @@
+{    
+    "params_cam":
+    {
+        "ENGINE": "UNITY",
+        "TYPE": "JPG",
+        "WIDTH": 320,
+        "HEIGHT": 240,
+        "FOV": 90,
+        "X": 1.80,
+        "Y": 0,
+        "Z": 1.50,
+        "YAW": 0,
+        "PITCH": 5.0,
+        "ROLL": 0
+    }
+}
