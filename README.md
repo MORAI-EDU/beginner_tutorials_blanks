@@ -1,10 +1,8 @@
 # :pencil: beginner_tutorials
 
-MORAI SIM Drive을 이용한 자율주행 학습 예제파일 입니다.
+MORAI SIM : Drive을 이용한 예제파일 입니다.
 
 특정 파일마다, 공백처리된 파트가 있습니다.
-
-학습한 내용을 바탕으로 공백처리된 부분을 채워 예제를 실행하면 됩니다.
 
 아래 내용은 해당 blank 된 부분을 소개합니다.
 
