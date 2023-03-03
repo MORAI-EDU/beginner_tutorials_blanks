@@ -33,6 +33,9 @@ class GPS_to_UTM:
         
         os.system('clear')
         print("-------------------------------------")
+        print(f"longitude : {gps_msg.longitude}")
+        print(f"latitude : {gps_msg.latitude}")
+        print()
         print(f"utm_x : {utm_x}")
         print(f"utm_y : {utm_y}")
         print(f"simulator map_x : {map_x}")

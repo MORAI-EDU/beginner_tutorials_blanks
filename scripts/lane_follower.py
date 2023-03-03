@@ -30,10 +30,10 @@ if __name__ == '__main__':
     rate = rospy.Rate(20)
 
     while not rospy.is_shutdown():
-        
+        os.system('clear')
+        print("This code is just an example. If you want higher performance, please proceed with direct tuning and algorithm advancement.")
         if ctrller.current_vel is not None and ctrller.lpath is not None:
-
-            ctrller.calc_acc(30/3.6)
+            ctrller.calc_acc(20/3.6)
             
             ctrller.steering_angle()
             
