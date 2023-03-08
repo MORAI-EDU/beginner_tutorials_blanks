@@ -111,6 +111,25 @@ upper_wlane = np.array([0,0,0])
 
 <br>
 
+#### **`lane_roi.py` line 17 ~ 24**
+
+```python
+self.crop_pts = np.array(
+    [[
+        [0,0],
+        [0,0],
+        [0,0],
+        [0,0]
+    ]]
+)
+```
+
+흰색 차선을 제외한 나머지 부분은 제외하기 위한 설정 입니다.
+
+따라서 흰색에 해당하는 범위를 찾아 넣으면 됩니다. 
+
+<br>
+
 #### **`lane_fitting.py` line 33 ~ 39**
 
 ```python
