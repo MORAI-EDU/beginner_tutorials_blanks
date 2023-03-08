@@ -73,6 +73,15 @@ purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필
 
 <br>
 
+#### **`pid_purepursuit.py` line 98**
+
+```python
+self.ctrl_cmd_msg.steering = None
+```
+
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
+<br>
+
 #### `advanced_purepursuit.py` line 176
 
 ```python
@@ -135,9 +144,7 @@ self.crop_pts = np.array(
 )
 ```
 
-흰색 차선을 제외한 나머지 부분은 제외하기 위한 설정 입니다.
-
-따라서 흰색에 해당하는 범위를 찾아 넣으면 됩니다. 
+관심영역 외 제거하기 위한 crop 포인트 입니다.
 
 <br>
 
