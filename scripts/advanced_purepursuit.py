@@ -120,8 +120,8 @@ class pure_pursuit :
         self.status_msg=msg    
         
     def global_path_callback(self,msg):
-        self.is_global_path = True
         self.global_path = msg
+        self.is_global_path = True
     
     def get_current_waypoint(self,ego_status,global_path):
         min_dist = float('inf')        
