@@ -13,21 +13,21 @@ MORAI SIM : Drive을 이용한 예제파일 입니다.
 ## 1. s_drive.py 관련 내용
 
 ```python
-from morai_msgs.msg import <<>>
+from morai_msgs.msg import <<here!>>
 
 class s_drive():
     def __init__(self):
         rospy.init_node('s_drive', anonymous=True)
-        cmd_pub = rospy.Publisher(<<>>, <<>>, queue_size=1)
+        cmd_pub = rospy.Publisher(<<here!>>, <<here!>>, queue_size=1)
         rate = rospy.Rate(30)
-        cmd = <<>>
-        cmd.longlCmdType = <<>>
-        cmd.velocity = <<>>
-        steering_cmd = [ <<>>, <<>>]
-        cmd_cnts = <<>>
+        cmd = <<here!>>
+        cmd.longlCmdType = <<here!>>
+        cmd.velocity = <<here!>>
+        steering_cmd = [ <<here!>>, <<here!>>]
+        cmd_cnts = <<here!>>
 ```
 
-학습내용을 바탕으로 <<>> 를 채우는 예제 입니다.
+학습내용을 바탕으로 <<here!>> 를 채우는 예제 입니다.
 
 <br>
 
@@ -92,6 +92,15 @@ purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필
 
 <br>
 
+#### `lane_follower.py` line 98
+
+```python
+steering_deg = None
+```
+
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
+<br>
+<br>
 <br>
 
 ## 3. 차선인지 관련 내용
