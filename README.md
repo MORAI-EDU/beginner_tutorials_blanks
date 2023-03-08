@@ -37,12 +37,11 @@ class s_drive():
 
 <br>
 
-#### **`pure_pursuit.py` line 31 ~ 32**
+#### **`pure_pursuit.py` line 30 ~ 31**
 
 ```python
-print("you need to change values at line 32~33 ,  self.vegicle_length , lfd")
-self.vehicle_length=0
-self.lfd=0
+self.vehicle_length = None
+self.lfd = None
 ```
 
 self.vehicle_length : 차량의 축거 (m)
@@ -51,59 +50,45 @@ self.lfd : 차량의 전방주시거리 (m)
 
 <br>
 
-#### **`pure_pursuit.py` line 69 ~ 70**
+#### **`pure_pursuit.py` line 70**
 
 ```python
-print("you need to change the value at line 70")
-self.ctrl_cmd_msg.steering=0
+self.ctrl_cmd_msg.steering = None
 ```
 
 purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
 
 <br>
 
-#### **`pid_purepursuit.py` line 59 ~ 61**
+#### **`pid_purepursuit.py` line 57 ~ 58**
 
 ```python
-print("you need to change values at line 60 ~ 61 :  vegicle_length , lfd")
-self.vehicle_length = 0
-self.lfd = 0
+self.vehicle_length = None
+self.lfd = None
 ```
 
 purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 차량의 축거와 전방주시거리 입니다.
 
 <br>
 
-#### `advanced_purepursuit.py` line 176 ~ 177
+#### `advanced_purepursuit.py` line 176
 
 ```python
-print("you need to change pure_pursuit_calcu_steering")
-steering = 0
+steering = None
 ```
 
 purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
 
 <br>
 
-#### `lane_follower.py` line 27 ~ 28
+#### `lane_follower.py` line 28 ~ 29
 
 ```python
-print("you need to set lfd, current value is 0  >>>>>>  ctrller = purePursuit(lfd=0)")
-ctrller = purePursuit(lfd=0)
+self.vehicle_length = None
+self.lfd = None
 ```
 
-purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 차량의 전방주시거리 (m) 입니다.
-
-<br>
-
-#### `util.py` line 481 ~ 482
-
-```python
-print("you need to change value at line 482 : purepursuit_steering")
-steering_deg= 0
-```
-
-purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 vehicle_length (m) 와 차량의 전방주시거리 (m) 입니다.
 
 <br>
 
@@ -113,10 +98,9 @@ purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
 
 <br>
 
-#### **`lane_binarize.py` line 27 ~ 29**
+#### **`lane_binarize.py` line 39 ~ 40**
 
 ```python
-print("you need to find the right value : line 28 ~ 29")
 lower_wlane = np.array([0,0,0])
 upper_wlane = np.array([0,0,0])
 ```
@@ -127,10 +111,9 @@ upper_wlane = np.array([0,0,0])
 
 <br>
 
-#### **`lane_fitting.py` line 23 ~ 29**
+#### **`lane_fitting.py` line 33 ~ 39**
 
 ```python
-print("you need to find the right value : line 23 ~ 29")
 self.lower_wlane = np.array([0,0,0])
 self.upper_wlane = np.array([0,0,0])
 
