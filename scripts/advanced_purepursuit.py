@@ -75,7 +75,6 @@ class pure_pursuit :
             os.system('clear')
             if self.is_path == True and self.is_odom == True and self.is_status == True:
                 prev_time = time.time()
-
                 self.current_waypoint = self.get_current_waypoint(self.status_msg,self.global_path)
                 self.target_velocity = self.velocity_list[self.current_waypoint]*3.6
                 steering = self.calc_pure_pursuit()
@@ -84,7 +83,6 @@ class pure_pursuit :
                 else : 
                     print("no found forward point")
                     self.ctrl_cmd_msg.steering = 0.0
-                
                 output = self.pid.pid(self.target_velocity,self.status_msg.velocity.x*3.6)
 
                 if output > 0.0:
@@ -177,7 +175,7 @@ class pure_pursuit :
         theta = atan2(local_path_point[1],local_path_point[0])
         steering = None
         if steering is None:
-            print("[ERROR] you need to change pure_pursuit : calcu_steering !")
+            print("[ERROR] you need to change pure_pursuit at line 176 : calcu_steering !")
             exit()
 
         return steering

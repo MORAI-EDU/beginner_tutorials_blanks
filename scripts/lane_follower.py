@@ -80,9 +80,8 @@ class PurePursuit :
         self.is_look_forward_point= False
 
         for i in self.lpath.poses:
-
             path_point=i.pose.position
-            
+
             if path_point.x>0 :
 
                 dis_i = np.sqrt(np.square(path_point.x) + np.square(path_point.y))
@@ -90,15 +89,15 @@ class PurePursuit :
                 if dis_i>= self.lfd :
 
                     self.is_look_forward_point=True
-                    
+
                     break
-        
+                
         theta=math.atan2(path_point.y, path_point.x)
 
         if self.is_look_forward_point :
             steering_deg = None
             if steering_deg is None:
-                print("you need to change pure_pursuit line 99 : calcu_steering")
+                print("you need to change pure_pursuit line 98 : calcu_steering")
                 exit()
             self.ctrl_msg.steering = steering_deg
         else : 
