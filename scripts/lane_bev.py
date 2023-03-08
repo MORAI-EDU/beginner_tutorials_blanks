@@ -3,11 +3,10 @@
 import rospy
 import cv2
 import numpy as np
-import os, rospkg
-import json
+import os
 
 from sensor_msgs.msg import CompressedImage
-from cv_bridge import CvBridgeError
+
 
 
 def warp_image(img, source_prop):
@@ -33,24 +32,35 @@ def warp_image(img, source_prop):
     return warped_img
 
 
-class IMGParser:
+class Lane_birdview:
     def __init__(self):
-
-        self.image_sub = rospy.Subscriber("/image_jpeg/compressed", CompressedImage, self.callback)
+        rospy.init_node('lane_birdview', anonymous=True)
+        self.image_sub = rospy.Subscriber("/image_jpeg/compressed", CompressedImage, self.callback)        
+        self.is_image = False
+        
         self.img_bgr = None
-
         self.source_prop = np.float32([[0.01, 0.80],
                                        [0.5 - 0.14, 0.52],
                                        [0.5 + 0.14, 0.52],
                                        [1 - 0.01, 0.80]
                                        ])
+        rate = rospy.Rate(10)
+        while not rospy.is_shutdown():
+            os.system('clear')
+            if not self.is_image:
+                print("[1] can't subscribe '/image_jpeg/compressed' topic... \n    please check your Camera sensor connection")
+            else:
+                print(f"Caemra sensor was connected !")
+
+            self.is_image = False
+            rate.sleep()
+
 
     def callback(self, msg):
-        try:
-            np_arr = np.fromstring(msg.data, np.uint8)
-            self.img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        except CvBridgeError as e:
-            print(e)
+        self.is_image = True
+
+        np_arr = np.frombuffer(msg.data, np.uint8)
+        self.img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         img_warp = warp_image(self.img_bgr, self.source_prop)
 
@@ -60,14 +70,8 @@ class IMGParser:
         cv2.waitKey(1) 
 
 
-def main():
-
-    rospy.init_node('lane_birdview', anonymous=True)
-
-    image_parser = IMGParser()
-
-    rospy.spin()
-
 if __name__ == '__main__':
-    
-    main()
+    try:
+        Lane_birdview = Lane_birdview()
+    except rospy.ROSInterruptException:
+        pass

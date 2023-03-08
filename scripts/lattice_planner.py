@@ -25,7 +25,7 @@ class latticePlanner:
         self.is_status = False
         self.is_obj = False
 
-        rate = rospy.Rate(50) # 30hz
+        rate = rospy.Rate(30) # 30hz
         while not rospy.is_shutdown():
 
             if self.is_path and self.is_status and self.is_obj:
@@ -98,7 +98,6 @@ class latticePlanner:
             # 좌표 변환 행렬을 만듭니다.
             # Lattice 경로를 만들기 위해서 경로 생성을 시작하는 Point 좌표에서 
             # 경로 생성이 끝나는 Point 좌표의 상대 위치를 계산해야 합니다.
-            
             """          
 
             global_ref_start_point      = (ref_path.poses[0].pose.position.x, ref_path.poses[0].pose.position.y)
@@ -133,7 +132,6 @@ class latticePlanner:
             # Path 생성 방식은 3차 방정식을 이용하며 lane_change_ 예제와 동일한 방식의 경로 생성을 하면 됩니다.
             # 생성된 Lattice 경로는 out_path 변수에 List 형식으로 넣습니다.
             # 충돌 회피 경로는 기존 경로를 제외하고 좌 우로 3개씩 총 6개의 경로를 가지도록 합니다.
-
             '''
                 
             for end_point in local_lattice_points :

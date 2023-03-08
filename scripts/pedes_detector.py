@@ -5,7 +5,6 @@ import cv2
 import numpy as np
 
 from sensor_msgs.msg import CompressedImage
-from cv_bridge import CvBridgeError
 
 
 def non_maximum_supression(bboxes, threshold=0.3):
@@ -55,10 +54,7 @@ class PEDESDetector:
    
         self.rate = rospy.Rate(20)
     
-        self.image_sub = rospy.Subscriber(
-            "/image_jpeg/compressed",
-            CompressedImage,
-            self.callback)
+        self.image_sub = rospy.Subscriber("/image_jpeg/compressed", CompressedImage, self.callback)
 
         self.pedes_detector = cv2.HOGDescriptor()                              
         self.pedes_detector.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
@@ -69,12 +65,8 @@ class PEDESDetector:
 
         self.rate.sleep()
 
-        try:
-            np_arr = np.fromstring(msg.data, np.uint8)
-            img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        except CvBridgeError as e:
-            print(e)
-
+        np_arr = np.frombuffer(msg.data, np.uint8)
+        img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         img_gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
 
         (rects_temp, _) = self.pedes_detector.detectMultiScale(img_gray, winStride=(4, 4), padding=(8, 8), scale=8)

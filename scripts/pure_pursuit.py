@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import rospy
+import rospy, os
 import rospkg
+import numpy as np
 from math import cos,sin,pi,sqrt,pow,atan2
-from geometry_msgs.msg import Point,PoseWithCovarianceStamped
+
+from geometry_msgs.msg import Point
 from nav_msgs.msg import Odometry,Path
 from morai_msgs.msg import CtrlCmd
-import numpy as np
-import tf
-from tf.transformations import euler_from_quaternion,quaternion_from_euler
+from tf.transformations import euler_from_quaternion
 
 
 class pure_pursuit :
@@ -18,21 +18,21 @@ class pure_pursuit :
         rospy.Subscriber("local_path", Path, self.path_callback)
         rospy.Subscriber("odom", Odometry, self.odom_callback)
         self.ctrl_cmd_pub = rospy.Publisher('ctrl_cmd',CtrlCmd, queue_size=1)
-        self.ctrl_cmd_msg=CtrlCmd()
-        self.ctrl_cmd_msg.longlCmdType=2
+        self.ctrl_cmd_msg = CtrlCmd()
+        self.ctrl_cmd_msg.longlCmdType = 2
 
-        self.is_path=False
-        self.is_odom=False
+        self.is_path = False
+        self.is_odom = False
 
-        self.forward_point=Point()
-        self.current_postion=Point()
-        self.is_look_forward_point=False
+        self.forward_point = Point()
+        self.current_postion = Point()
+        self.is_look_forward_point = False
+        self.vehicle_length = None
+        self.lfd = None
+        if self.vehicle_length is None or self.lfd is None:
+            print("you need to change values at line 30~31 ,  self.vegicle_length , lfd")
 
-        print("you need to change values at line 32~33 ,  self.vegicle_length , lfd")
-        self.vehicle_length=0
-        self.lfd=0
-
-        rate = rospy.Rate(30) # 30hz
+        rate = rospy.Rate(15) # 15hz
         while not rospy.is_shutdown():
 
             if self.is_path ==True and self.is_odom==True  :
@@ -65,17 +65,33 @@ class pure_pursuit :
                             break
                 
                 theta=atan2(local_path_point[1],local_path_point[0])
+
                 if self.is_look_forward_point :
-                    print("you need to change the value at line 70")
-                    self.ctrl_cmd_msg.steering=0
-                    self.ctrl_cmd_msg.velocity=20.0
-                    print(self.ctrl_cmd_msg.steering)
+                    self.ctrl_cmd_msg.steering = None
+                    if self.ctrl_cmd_msg.steering is None:
+                        print("you need to change the value at line 70")
+                    self.ctrl_cmd_msg.velocity = 15.0
+
+                    os.system('clear')
+                    print("-------------------------------------")
+                    print(" steering (deg) = ", self.ctrl_cmd_msg.steering * 180/3.14)
+                    print(" velocity (kph) = ", self.ctrl_cmd_msg.velocity)
+                    print("-------------------------------------")
                 else : 
                     print("no found forward point")
                     self.ctrl_cmd_msg.steering=0.0
                     self.ctrl_cmd_msg.velocity=0.0
-
+                
                 self.ctrl_cmd_pub.publish(self.ctrl_cmd_msg)
+
+            else:
+                os.system('clear')
+                if not self.is_path:
+                    print("[1] can't subscribe '/local_path' topic...")
+                if not self.is_odom:
+                    print("[2] can't subscribe '/odom' topic...")
+            
+            self.is_path = self.is_odom = False
             rate.sleep()
 
     def path_callback(self,msg):

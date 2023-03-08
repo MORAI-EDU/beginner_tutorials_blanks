@@ -10,24 +10,33 @@ from cv_bridge import CvBridgeError
 
 class IMGParser:
     def __init__(self):
-
+        rospy.init_node('image_parser', anonymous=True)
         self.image_sub = rospy.Subscriber("/image_jpeg/compressed", CompressedImage, self.callback)
+        self.is_image = False
+
+        rate = rospy.Rate(10)
+        while not rospy.is_shutdown():
+            os.system('clear')
+            if not self.is_image:
+                print("[1] can't subscribe '/image_jpeg/compressed' topic... \n    please check your Camera sensor connection")
+            else:
+                print(f"Caemra sensor was connected !")
+
+            self.is_image = False
+            rate.sleep()
+
 
     def callback(self, msg):
-        try:
-            np_arr = np.fromstring(msg.data, np.uint8)
-            img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        except CvBridgeError as e:
-            print(e)
-
+        self.is_image = True
+        np_arr = np.frombuffer(msg.data, np.uint8)
+        img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+    
         cv2.imshow("Image window", img_bgr)
-        cv2.waitKey(1) 
+        cv2.waitKey(1)
 
 
 if __name__ == '__main__':
-
-    rospy.init_node('image_parser', anonymous=True)
-
-    image_parser = IMGParser()
-
-    rospy.spin() 
+    try:
+        IMGParser = IMGParser()
+    except rospy.ROSInterruptException:
+        pass

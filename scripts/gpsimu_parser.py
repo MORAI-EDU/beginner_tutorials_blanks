@@ -29,15 +29,23 @@ class GPSIMUParser:
         self.odom_msg.header.frame_id='/odom'
         self.odom_msg.child_frame_id='/base_link'
 
-        rate = rospy.Rate(30)
+        rate = rospy.Rate(10)
         while not rospy.is_shutdown():
+            os.system('clear')
             if self.is_imu==True and self.is_gps == True:
                 self.convertLL2UTM()
-
                 self.odom_pub.publish(self.odom_msg)
+                print(f"odom_msg is now being published at '/odom' topic!\n")
+                print('-----------------[ odom_msg ]---------------------')
+                print(self.odom_msg.pose)
 
-
-                rate.sleep()
+            if not self.is_imu:
+                print("[1] can't subscribe '/imu' topic... \n    please check your IMU sensor connection")
+            if not self.is_gps:
+                print("[2] can't subscribe '/gps' topic... \n    please check your GPS sensor connection")
+            
+            self.is_gps = self.is_imu = False
+            rate.sleep()
 
     def navsat_callback(self, gps_msg):
 

@@ -1,19 +1,19 @@
 #!/usr/bin/env python
  
-import rospy
+import rospy, os
 import cv2
 import numpy as np
-import os, rospkg
 
 from sensor_msgs.msg import CompressedImage
 from cv_bridge import CvBridgeError
 
-class IMGParser:
 
+class Lane_roi:
     def __init__(self):
-
+        rospy.init_node('lane_roi', anonymous=True)
         self.image_sub = rospy.Subscriber("/image_jpeg/compressed", CompressedImage, self.callback)
-
+        self.is_image = False
+        self.result = None
         self.crop_pts = np.array(
             [[
                 [0,0],
@@ -22,13 +22,31 @@ class IMGParser:
                 [0,0]
             ]]
         )
+        if np.sum(self.crop_pts) == 0:
+            print("you need to change values at line 19~22 : masking points")
+
+
+
+        rate = rospy.Rate(10)
+        while not rospy.is_shutdown():
+            os.system('clear')
+            if not self.is_image:
+                cv2.destroyAllWindows()
+                print("[1] can't subscribe '/image_jpeg/compressed' topic... \n    please check your Camera sensor connection")
+            else:
+                cv2.imshow("Image window", self.result)
+                cv2.waitKey(1)
+                print(f"Caemra sensor was connected !")
+
+            self.is_image = False
+            rate.sleep()
+
 
     def callback(self, msg):
-        try:
-            np_arr = np.fromstring(msg.data, np.uint8)
-            img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        except CvBridgeError as e:
-            print(e)
+        self.is_image = True
+        np_arr = np.frombuffer(msg.data, np.uint8)
+        img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
 
         self.mask = self.mask_roi(img_bgr)
 
@@ -38,8 +56,7 @@ class IMGParser:
         else:
             img_concat = np.concatenate([img_bgr, cv2.cvtColor(self.mask, cv2.COLOR_GRAY2BGR)], axis=1)
 
-        cv2.imshow("Image window", img_concat)
-        cv2.waitKey(1)
+        self.result = img_concat
 
     def mask_roi(self, img):
 
@@ -71,9 +88,7 @@ class IMGParser:
 
 
 if __name__ == '__main__':
-
-    rospy.init_node('image_parser', anonymous=True)
-
-    image_parser = IMGParser()
-
-    rospy.spin() 
+    try:
+        Lane_roi = Lane_roi()
+    except rospy.ROSInterruptException:
+        pass

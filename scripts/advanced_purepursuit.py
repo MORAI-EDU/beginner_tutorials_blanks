@@ -173,8 +173,9 @@ class pure_pursuit :
         
         #TODO: (4) Steering 각도 계산
         theta = atan2(local_path_point[1],local_path_point[0])
-        print("you need to change pure_pursuit_calcu_steering")
-        steering = 0
+        steering = None
+        if steering is None:
+            print("you need to change pure_pursuit : calcu_steering")
 
         return steering
 

@@ -18,13 +18,21 @@ class GPS_to_UTM:
         self.utm_msg = Float32MultiArray()
         self.is_gps_data = False
 
-        rospy.spin()
+        rate = rospy.Rate(10)
+        while not rospy.is_shutdown():
+            os.system('clear')
+            if not self.is_gps_data:
+                print("[1] can't subscribe '/gps' topic... \n    please check your GPS sensor connection")
+
+            self.is_gps_data = False
+            rate.sleep()
 
 
     def gps_callback(self, gps_msg):
         self.is_gps_data = True
-        longitude = gps_msg.longitude
         latitude = gps_msg.latitude
+        longitude = gps_msg.longitude
+        altitude = gps_msg.altitude
         utm_xy = self.proj_UTM(longitude, latitude)
         utm_x = utm_xy[0]
         utm_y = utm_xy[1]
@@ -32,15 +40,29 @@ class GPS_to_UTM:
         map_y = utm_y - gps_msg.northOffset
         
         os.system('clear')
-        print("-------------------------------------")
-        print(f"longitude : {gps_msg.longitude}")
-        print(f"latitude : {gps_msg.latitude}")
-        print()
-        print(f"utm_x : {utm_x}")
-        print(f"utm_y : {utm_y}")
-        print(f"simulator map_x : {map_x}")
-        print(f"simulator map_y : {map_y}")
-        print("-------------------------------------")
+        print(f''' 
+        ----------------[ GPS data ]----------------
+            latitude    : {latitude}
+            longitude   : {longitude}
+            altitude    : {altitude}
+
+                             |
+                             | apply Projection (utm 52 zone)
+                             V
+
+        ------------------[ utm ]-------------------
+              utm_x     : {utm_x}
+              utm_y     : {utm_y}
+
+                             |
+                             | apply offset (east and north)
+                             V
+              
+        ------------------[ map ]-------------------
+        simulator map_x : {map_x}
+        simulator map_y : {map_y}
+        ''')
+
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import rospy
+import rospy, os
 from morai_msgs.msg import CtrlCmd, CollisionData, EgoVehicleStatus, EventInfo
 from morai_msgs.srv import MoraiEventCmdSrv
 from enum import Enum
@@ -20,22 +20,32 @@ class s_drive():
         
         # subscriber
         rospy.Subscriber('/CollisionData', CollisionData, self.collision_callback)
+        self.is_collision_data = False
+        self.is_collision = False
+
         rospy.Subscriber('/Ego_topic', EgoVehicleStatus, self.ego_callback)
+        self.is_ego = False
 
         # service
-        rospy.wait_for_service('/Service_MoraiEventCmd')
+        rospy.wait_for_service('/Service_MoraiEventCmd', timeout= 5)
+
         self.event_cmd_srv = rospy.ServiceProxy('Service_MoraiEventCmd', MoraiEventCmdSrv)
 
         self.rate = rospy.Rate(10)
-
-        self.is_collision = False
         self.ego_status = EgoVehicleStatus()
 
         # 처음에 auto_mode , drive gear로 세팅
         self.send_gear_cmd(Gear.D.value)
 
         while not rospy.is_shutdown():
-            if(self.is_collision):
+            os.system('clear')
+            if not self.is_collision_data:
+                print("[1] can't subscribe '/CollisionData' topic... \n    please check connection")
+            if not self.is_ego:
+                print("[2] can't subscribe '/Ego_topic' topic... \n    please check connection")
+
+
+            if self.is_collision:
                 # 충돌 발생시 기어
                 self.send_gear_cmd(Gear.R.value)
 
@@ -51,6 +61,8 @@ class s_drive():
 
     # 충돌 메시지 콜백 함수
     def collision_callback(self, data):
+        self.is_collision_data = True
+
         if(len(data.collision_object) > 0):
             self.is_collision = True
             print("collision : ", self.is_collision)
@@ -59,7 +71,7 @@ class s_drive():
 
     # EGO 차량 상태 정보 콜백 함수
     def ego_callback(self, data):
-        print(self.ego_status.velocity.x * 3.6)
+        self.is_ego = True
         self.ego_status = data
 
     # 기어 변경 이벤트 메시지 세팅 함수

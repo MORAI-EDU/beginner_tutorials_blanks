@@ -2,15 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-import rospkg
+import os
+import numpy as np
 from math import cos,sin,pi,sqrt,pow,atan2
-from geometry_msgs.msg import Point,PoseWithCovarianceStamped
+
+from geometry_msgs.msg import Point
 from nav_msgs.msg import Odometry,Path
 from morai_msgs.msg import CtrlCmd, EgoVehicleStatus
-import numpy as np
-import tf
-from tf.transformations import euler_from_quaternion,quaternion_from_euler
-import os
+from tf.transformations import euler_from_quaternion
 
 
 class pidControl:
@@ -55,14 +54,15 @@ class pure_pursuit :
         self.forward_point=Point()
         self.current_postion=Point()
         self.is_look_forward_point=False
-        self.vehicle_length=3
-        self.lfd = 20
+        self.vehicle_length = None
+        self.lfd = None
+        if self.vehicle_length is None or self.lfd is None:
+            print("you need to change values at line 57~58 ,  self.vegicle_length , lfd")
 
         self.pid_controller = pidControl()
 
-        rate = rospy.Rate(30) # 30hz
+        rate = rospy.Rate(15) # 15hz
         while not rospy.is_shutdown():
-
             if self.is_path ==True and self.is_odom==True and self.is_status == True :
                 
                 vehicle_position=self.current_postion
@@ -93,12 +93,10 @@ class pure_pursuit :
                             break
                 
                 theta=atan2(local_path_point[1],local_path_point[0])
+
                 if self.is_look_forward_point :
                     self.ctrl_cmd_msg.steering = atan2((2*self.vehicle_length*sin(theta)),self.lfd)
                     output = self.pid_controller.pid(self.target_vel, self.current_vel * 3.6)
-
-                    
-
 
                     if output > 0:
                         self.ctrl_cmd_msg.accel = output
@@ -106,7 +104,7 @@ class pure_pursuit :
                     else:
                         self.ctrl_cmd_msg.accel = 0
                         self.ctrl_cmd_msg.brake = - output
-                    # print("ACCEL : ",  self.ctrl_cmd_msg.accel, " | BRAKE : ", self.ctrl_cmd_msg.brake)
+                    
                     os.system('clear')
                     print("-------------------------------------")
                     print(" Accel (%) = ", 100 if self.ctrl_cmd_msg.accel * 100 >= 100 else self.ctrl_cmd_msg.accel * 100)
@@ -119,7 +117,19 @@ class pure_pursuit :
                     self.ctrl_cmd_msg.velocity=0.0
 
                 self.ctrl_cmd_pub.publish(self.ctrl_cmd_msg)
+            
+            else:
+                os.system('clear')
+                if not self.is_path:
+                    print("[1] can't subscribe '/local_path' topic...")
+                if not self.is_odom:
+                    print("[2] can't subscribe '/odom' topic...")
+                if not self.is_status:
+                    print("[3] can't subscribe '/Ego_topic' topic...")
+            
+            self.is_path = self.is_odom = self.is_status = False
             rate.sleep()
+
 
     def status_callback(self, msg):
         self.is_status = True
