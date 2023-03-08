@@ -150,7 +150,7 @@ self.upper_wlane = np.array([0,0,0])
 self.lower_ylane = np.array([0,0,0])
 self.upper_ylane = np.array([0,0,0])
 
-self.crop_pts = np.array([[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]])
+self.crop_pts = np.array([[[0,0],[0,0],[0,0],[0,0]]])
 ```
 
 흰색과 노란색 선을 제외한 나머지 부분은 제외하기 위한 설정 입니다.
