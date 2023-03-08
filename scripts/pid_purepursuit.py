@@ -58,7 +58,7 @@ class pure_pursuit :
         self.lfd = None
         if self.vehicle_length is None or self.lfd is None:
             print("you need to change values at line 57~58 ,  self.vegicle_length , lfd")
-
+            exit()
         self.pid_controller = pidControl()
 
         rate = rospy.Rate(15) # 15hz
@@ -95,7 +95,11 @@ class pure_pursuit :
                 theta=atan2(local_path_point[1],local_path_point[0])
 
                 if self.is_look_forward_point :
-                    self.ctrl_cmd_msg.steering = atan2((2*self.vehicle_length*sin(theta)),self.lfd)
+                    self.ctrl_cmd_msg.steering = None
+                    if self.ctrl_cmd_msg.steering is None:
+                        print("you need to change the value at line 98")
+                        exit()
+
                     output = self.pid_controller.pid(self.target_vel, self.current_vel * 3.6)
 
                     if output > 0:

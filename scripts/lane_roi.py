@@ -24,6 +24,7 @@ class Lane_roi:
         )
         if np.sum(self.crop_pts) == 0:
             print("you need to change values at line 19~22 : masking points")
+            exit()
 
 
 

@@ -36,7 +36,7 @@ class IMGParser:
         self.lower_ylane = np.array([0,0,0])
         self.upper_ylane = np.array([0,0,0])
 
-        self.crop_pts = np.array([[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]])
+        self.crop_pts = np.array([[[0,0],[0,0],[0,0],[0,0]]])
         
         if np.sum(self.lower_wlane) == 0 or np.sum(self.upper_wlane) == 0 or \
         np.sum(self.lower_ylane) == 0 or np.sum(self.upper_ylane) == 0 or \

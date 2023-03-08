@@ -29,6 +29,7 @@ class PurePursuit :
         self.lfd = None
         if self.vehicle_length is None or self.lfd is None:
             print("you need to change values at line 28~29 : self.vegicle_length , lfd")
+            exit()
         self.min_lfd = 2
         self.max_lfd = 50
 
@@ -97,7 +98,8 @@ class PurePursuit :
         if self.is_look_forward_point :
             steering_deg = None
             if steering_deg is None:
-                print("you need to change pure_pursuit : calcu_steering")
+                print("you need to change pure_pursuit line 99 : calcu_steering")
+                exit()
             self.ctrl_msg.steering = steering_deg
         else : 
             self.ctrl_msg.steering = 0.0

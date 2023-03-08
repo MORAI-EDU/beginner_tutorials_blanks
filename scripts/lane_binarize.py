@@ -38,7 +38,7 @@ class Lane_binarize:
 
         lower_wlane = np.array([0,0,0])
         upper_wlane = np.array([0,0,0])
-        if lower_wlane == np.array([0, 0, 0]) or upper_wlane == np.array([0, 0, 0]):
+        if np.sum(lower_wlane) == 0 or np.sum(upper_wlane) == 0:
             print("you need to find the right value : line 39 ~ 40")
         
         img_wlane = cv2.inRange(img_hsv, lower_wlane, upper_wlane)

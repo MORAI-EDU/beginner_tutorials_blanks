@@ -31,7 +31,7 @@ class pure_pursuit :
         self.lfd = None
         if self.vehicle_length is None or self.lfd is None:
             print("you need to change values at line 30~31 ,  self.vegicle_length , lfd")
-
+            exit()
         rate = rospy.Rate(15) # 15hz
         while not rospy.is_shutdown():
 
@@ -70,6 +70,7 @@ class pure_pursuit :
                     self.ctrl_cmd_msg.steering = None
                     if self.ctrl_cmd_msg.steering is None:
                         print("you need to change the value at line 70")
+                        exit()
                     self.ctrl_cmd_msg.velocity = 15.0
 
                     os.system('clear')
