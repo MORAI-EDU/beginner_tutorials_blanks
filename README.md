@@ -73,6 +73,15 @@ purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필
 
 <br>
 
+#### **`pid_purepursuit.py` line 98**
+
+```python
+self.ctrl_cmd_msg.steering = None
+```
+
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
+<br>
+
 #### `advanced_purepursuit.py` line 176
 
 ```python
