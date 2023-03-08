@@ -6,6 +6,8 @@ MORAI SIM : Drive을 이용한 예제파일 입니다.
 
 아래 내용은 해당 blank 된 부분을 소개합니다.
 
+*코드 업데이트 내역은 answer code repository를 참조*
+
 <br>
 
 <br>
