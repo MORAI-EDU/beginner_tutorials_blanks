@@ -71,7 +71,7 @@ class pure_pursuit :
                     if self.ctrl_cmd_msg.steering is None:
                         print("you need to change the value at line 70")
                         exit()
-                    self.ctrl_cmd_msg.velocity = 15.0
+                    self.ctrl_cmd_msg.velocity = 20
 
                     os.system('clear')
                     print("-------------------------------------")
