@@ -49,7 +49,7 @@ class pure_pursuit :
         self.is_odom=False
         self.is_current_vel =False
         self.is_status = False
-        self.target_vel = 40
+        self.target_vel = 0
         self.current_vel = 0.0
         self.forward_point=Point()
         self.current_postion=Point()
