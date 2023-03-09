@@ -97,7 +97,7 @@ self.vehicle_length = None
 self.lfd = None
 ```
 
-purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 차량의 축거와 전방주시거리 입니다.
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 vehicle_length (m) 와 차량의 전방주시거리 (m) 입니다.
 
 <br>
 
@@ -118,7 +118,7 @@ self.vehicle_length = None
 self.lfd = None
 ```
 
-purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 차량의 축거와 전방주시거리 입니다.
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 vehicle_length (m) 와 차량의 전방주시거리 (m) 입니다.
 
 <br>
 
@@ -128,10 +128,20 @@ purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필
 self.ctrl_cmd_msg.steering = None
 ```
 
-purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
 <br>
 
-**`pure_pursuit_pid_velocity_planning.py` line 176**
+**`pure_pursuit_pid_velocity_planning.py` line 57 ~ 58**
+
+```python
+self.vehicle_length = None
+self.lfd = None
+```
+
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 vehicle_length (m) 와 차량의 전방주시거리 (m) 입니다.
+
+<br>
+
+**`pure_pursuit_pid_velocity_planning.py` line 179**
 
 ```python
 steering = None
