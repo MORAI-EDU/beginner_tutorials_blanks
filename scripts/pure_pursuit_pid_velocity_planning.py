@@ -54,8 +54,11 @@ class pure_pursuit :
         self.forward_point = Point()
         self.current_postion = Point()
 
-        self.vehicle_length = 2.6  # example 
-        self.lfd = 8 # example
+        self.vehicle_length = None
+        self.lfd = None
+        if self.vehicle_length is None or self.lfd is None:
+            print("you need to change values at line 57~58 ,  self.vegicle_length , lfd")
+            exit()
         self.min_lfd = 5
         self.max_lfd = 30
         self.lfd_gain = 0.78
@@ -175,7 +178,7 @@ class pure_pursuit :
         theta = atan2(local_path_point[1],local_path_point[0])
         steering = None
         if steering is None:
-            print("[ERROR] you need to change pure_pursuit at line 176 : calcu_steering !")
+            print("[ERROR] you need to change pure_pursuit at line 179 : calcu_steering !")
             exit()
 
         return steering

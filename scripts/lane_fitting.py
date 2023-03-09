@@ -42,6 +42,7 @@ class IMGParser:
         np.sum(self.lower_ylane) == 0 or np.sum(self.upper_ylane) == 0 or \
         np.sum(self.crop_pts) == 0:
             print("you need to find the right value : check lines at 33 ~ 39")
+            exit()
     
 
     def callback(self, msg):

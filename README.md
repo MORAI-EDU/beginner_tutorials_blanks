@@ -1,18 +1,69 @@
-# :pencil: beginner_tutorials
+# 1. 버전 내역
 
-MORAI SIM : Drive을 이용한 예제파일 입니다.
+### [0309]
 
-특정 파일마다, 공백처리된 파트가 있습니다.
+- **[삭제]** 미사용 코드
+  - `ex_calib_velodyne3`
+  - `morai_gt_parser`
+- **[수정]** deprecated warning으로 fromstring() 함수를 frombuffer() 함수로 변경 
+  - `lane_bev`
+  - `lane_binarize`
+  - `lane_fitting`
+  - `lane_roi`
+- **[수정]** 스크립트 네임 통일
+  - `pid_purepursuit` > `pure_pursuit_pid`
+  - `advanced_purepursuit` > `pure_pursuit_pid_velocity_planning`
 
-아래 내용은 해당 blank 된 부분을 소개합니다.
+<br>
 
-*코드 업데이트 내역은 answer code repository를 참조*
+### [0308]
+
+- **[수정]** 토픽 연결상태 실시간 진단 기능 추가
+
+  - `pure_pursuit`
+
+  - `pid_purepursuit`
+
+  - `advanced_purepursuit`
+
+  - `collision_avoid`
+  - `gps`
+
+  - `imu`
+
+  - `gpsimu_parser`
+
+  - `image_parser`
+
+  - `lane_binarize`
+
+  - `lane_roi`
+
+  - `lane_bev`
+
+  - `lane_fitting`
+
+  - `lane_fillower`
+
+<br>
+
+### [0307]
+
+- **[삭제]** 외부 스크립트 import 방식 제거
+  - `util.py` 
+- **[수정]** util.py에 대한 의존성 제거 및 필요 코드 추가
+  - `lane_fitting`
+  - `lane_follower`
 
 <br>
 
 <br>
 
-## 1. s_drive.py 관련 내용
+# 2. 상세 내용
+
+<br>
+
+#### 1. s_drive
 
 ```python
 from morai_msgs.msg import <<here!>>
@@ -35,34 +86,11 @@ class s_drive():
 
 <br>
 
-## 2. pure_pursuit 관련 내용
+#### 2. pure_pursuit 관련 내용
 
 <br>
 
-#### **`pure_pursuit.py` line 30 ~ 31**
-
-```python
-self.vehicle_length = None
-self.lfd = None
-```
-
-self.vehicle_length : 차량의 축거 (m)
-
-self.lfd : 차량의 전방주시거리 (m)
-
-<br>
-
-#### **`pure_pursuit.py` line 70**
-
-```python
-self.ctrl_cmd_msg.steering = None
-```
-
-purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
-
-<br>
-
-#### **`pid_purepursuit.py` line 57 ~ 58**
+**`pure_pursuit.py` line 30 ~ 31**
 
 ```python
 self.vehicle_length = None
@@ -73,7 +101,28 @@ purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필
 
 <br>
 
-#### **`pid_purepursuit.py` line 98**
+**`pure_pursuit.py` line 70**
+
+```python
+self.ctrl_cmd_msg.steering = None
+```
+
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
+
+<br>
+
+**`pure_pursuit_pid.py` line 57 ~ 58**
+
+```python
+self.vehicle_length = None
+self.lfd = None
+```
+
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 차량의 축거와 전방주시거리 입니다.
+
+<br>
+
+**`pure_pursuit_pid.py` line 98**
 
 ```python
 self.ctrl_cmd_msg.steering = None
@@ -82,7 +131,7 @@ self.ctrl_cmd_msg.steering = None
 purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
 <br>
 
-#### `advanced_purepursuit.py` line 176
+**`pure_pursuit_pid_velocity_planning.py` line 176**
 
 ```python
 steering = None
@@ -92,7 +141,7 @@ purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
 
 <br>
 
-#### `lane_follower.py` line 28 ~ 29
+**`lane_follower.py` line 28 ~ 29**
 
 ```python
 self.vehicle_length = None
@@ -101,24 +150,23 @@ self.lfd = None
 
 purepursuit 알고리즘을 이용하여 제어할 조향각을 계산할때 필요한 vehicle_length (m) 와 차량의 전방주시거리 (m) 입니다.
 
-<br>
-
-#### `lane_follower.py` line 98
+**`lane_follower.py` line 98**
 
 ```python
 steering_deg = None
 ```
 
-purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
-<br>
-<br>
-<br>
-
-## 3. 차선인지 관련 내용
+purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.<br>
 
 <br>
 
-#### **`lane_binarize.py` line 39 ~ 40**
+<br>
+
+#### 3. 차선인지 관련 내용
+
+<br>
+
+**`lane_binarize.py` line 39 ~ 40**
 
 ```python
 lower_wlane = np.array([0,0,0])
@@ -131,7 +179,7 @@ upper_wlane = np.array([0,0,0])
 
 <br>
 
-#### **`lane_roi.py` line 17 ~ 24**
+**`lane_roi.py` line 17 ~ 24**
 
 ```python
 self.crop_pts = np.array(
@@ -148,7 +196,7 @@ self.crop_pts = np.array(
 
 <br>
 
-#### **`lane_fitting.py` line 33 ~ 39**
+**`lane_fitting.py` line 33 ~ 39**
 
 ```python
 self.lower_wlane = np.array([0,0,0])
@@ -161,6 +209,23 @@ self.crop_pts = np.array([[[0,0],[0,0],[0,0],[0,0]]])
 ```
 
 흰색과 노란색 선을 제외한 나머지 부분은 제외하기 위한 설정 입니다.
+
+crop_pts 는 관심영역(ROI) 외엔 마스킹(잘라내기 위한)처리를 위한 구간 설정 입니다.
+
+<br>
+
+**`lane_roi.py` line 17 ~ 24**
+
+```python
+self.crop_pts = np.array(
+	[[
+		[0,0],
+		[0,0],
+		[0,0],
+		[0,0]
+	]]
+)
+```
 
 crop_pts 는 관심영역(ROI) 외엔 마스킹(잘라내기 위한)처리를 위한 구간 설정 입니다.
 

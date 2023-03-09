@@ -40,6 +40,7 @@ class Lane_binarize:
         upper_wlane = np.array([0,0,0])
         if np.sum(lower_wlane) == 0 or np.sum(upper_wlane) == 0:
             print("you need to find the right value : line 39 ~ 40")
+            exit()
         
         img_wlane = cv2.inRange(img_hsv, lower_wlane, upper_wlane)
 
