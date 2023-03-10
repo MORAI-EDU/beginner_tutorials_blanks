@@ -1,18 +1,6 @@
 # 1. 버전 내역
 
-### [0309]
-
-- **[삭제]** 미사용 코드
-  - `ex_calib_velodyne3`
-  - `morai_gt_parser`
-- **[수정]** deprecated warning으로 fromstring() 함수를 frombuffer() 함수로 변경 
-  - `lane_bev`
-  - `lane_binarize`
-  - `lane_fitting`
-  - `lane_roi`
-- **[수정]** 스크립트 네임 통일
-  - `pid_purepursuit` > `pure_pursuit_pid`
-  - `advanced_purepursuit` > `pure_pursuit_pid_velocity_planning`
+이후의 버전은 Tag에서 확인
 
 <br>
 
