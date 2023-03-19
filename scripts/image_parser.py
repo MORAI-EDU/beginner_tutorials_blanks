@@ -15,7 +15,7 @@ class IMGParser:
         self.is_image = False
         self.img_bgr = None
 
-        rate = rospy.Rate(10)
+        rate = rospy.Rate(30)
         while not rospy.is_shutdown():
             os.system('clear')
             if not self.is_image:
@@ -26,7 +26,6 @@ class IMGParser:
                 cv2.waitKey(1)
                 print(f"Caemra sensor was connected !")
 
-            self.is_image = False
             rate.sleep()
 
 
