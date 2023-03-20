@@ -168,7 +168,7 @@ purepursuit 알고리즘을 이용하여 제어할 조향각을 계산합니다.
 
 ```python
 lower_wlane = np.array([0,0,0])
-upper_wlane = np.array([0,0,0])
+upper_wlane = np.array([30,60,255])
 ```
 
 흰색 차선을 제외한 나머지 부분은 제외하기 위한 설정 입니다.
