@@ -12,9 +12,15 @@ class s_drive():
         cmd.longlCmdType = <<here!>>
         cmd.velocity = <<here!>>
         steering_cmd = [ <<here!>>, <<here!>>]
-        cmd_cnts = <<here!>>
+        cmd_cnts = 50
 
-
+        while not rospy.is_shutdown():
+            for i in range(2):
+                cmd.steering = steering_cmd[i]
+                rospy.loginfo(cmd)
+                for _ in range(cmd_cnts):
+                    cmd_pub.publish(cmd)
+                    rate.sleep()
 
 if __name__ == '__main__':
     try:
