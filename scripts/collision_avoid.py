@@ -8,7 +8,7 @@ from enum import Enum
 class Gear(Enum):
     P = 1
     R = 2
-    N = 2
+    N = 3
     D = 4
 
 class s_drive():
