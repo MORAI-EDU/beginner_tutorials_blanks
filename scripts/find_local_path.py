@@ -59,7 +59,7 @@ class turtle_listener():
         br.sendTransform((self.status_msg.x, self.status_msg.y, 0),
                         tf.transformations.quaternion_from_euler(0,0, self.status_msg.theta),
                         rospy.Time.now(),
-                        "tuetle",
+                        "turtle",
                         "map")
 
 if __name__ == '__main__' :
