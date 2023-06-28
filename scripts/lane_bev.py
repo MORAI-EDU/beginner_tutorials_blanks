@@ -39,10 +39,10 @@ class Lane_birdview:
         self.is_image = False
         
         self.img_bgr = None
-        self.source_prop = np.float32([[0.01, 0.80],
-                                       [0.5 - 0.14, 0.52],
-                                       [0.5 + 0.14, 0.52],
-                                       [1 - 0.01, 0.80]
+        self.source_prop = np.float32([[0.01, 0.68],
+                                       [0.5 - 0.17, 0.56],
+                                       [0.5 + 0.17, 0.56],
+                                       [1 - 0.01, 0.68]
                                        ])
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
