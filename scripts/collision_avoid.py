@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import rospy, os
 from morai_msgs.msg import CtrlCmd, CollisionData, EgoVehicleStatus, EventInfo
