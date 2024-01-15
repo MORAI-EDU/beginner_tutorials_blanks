@@ -25,8 +25,11 @@ class PurePursuit :
         self.is_lpath = False
         
         self.is_look_forward_point = False
-        self.vehicle_length = 2
-        self.lfd = 20
+        self.vehicle_length = None
+        self.lfd = None
+        if self.vehicle_length is None or self.lfd is None:
+            print("you need to change values at line 28~29 : self.vegicle_length , lfd")
+            exit()
         self.min_lfd = 2
         self.max_lfd = 50
 
@@ -77,9 +80,8 @@ class PurePursuit :
         self.is_look_forward_point= False
 
         for i in self.lpath.poses:
-
             path_point=i.pose.position
-            
+
             if path_point.x>0 :
 
                 dis_i = np.sqrt(np.square(path_point.x) + np.square(path_point.y))
@@ -87,14 +89,16 @@ class PurePursuit :
                 if dis_i>= self.lfd :
 
                     self.is_look_forward_point=True
-                    
+
                     break
-        
+                
         theta=math.atan2(path_point.y, path_point.x)
 
         if self.is_look_forward_point :
-            steering_deg= math.atan2((2 * self.vehicle_length * math.sin(theta)),self.lfd)
-
+            steering_deg = None
+            if steering_deg is None:
+                print("you need to change pure_pursuit line 98 : calcu_steering")
+                exit()
             self.ctrl_msg.steering = steering_deg
         else : 
             self.ctrl_msg.steering = 0.0

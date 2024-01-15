@@ -30,15 +30,19 @@ class IMGParser:
         self.img_lane = None
         self.edges = None
 
-        #####################################################################
-        self.lower_wlane = np.array([0,0,185])                              
-        self.upper_wlane = np.array([30,60,255])                            
-                                                                            
-        self.lower_ylane = np.array([10,100,100])                           
-        self.upper_ylane = np.array([40,255,255])                           
-                                                                            
-        self.crop_pts = np.array([[[0,180],[120,120],[200,120],[320,180]]]) 
-        #####################################################################
+        self.lower_wlane = np.array([0,0,0])
+        self.upper_wlane = np.array([0,0,0])
+
+        self.lower_ylane = np.array([0,0,0])
+        self.upper_ylane = np.array([0,0,0])
+
+        self.crop_pts = np.array([[[0,0],[0,0],[0,0],[0,0]]])
+        
+        if np.sum(self.lower_wlane) == 0 or np.sum(self.upper_wlane) == 0 or \
+        np.sum(self.lower_ylane) == 0 or np.sum(self.upper_ylane) == 0 or \
+        np.sum(self.crop_pts) == 0:
+            print("you need to find the right value : check lines at 33 ~ 39")
+            exit()
     
 
     def callback(self, msg):

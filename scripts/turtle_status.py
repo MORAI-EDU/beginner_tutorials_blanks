@@ -19,11 +19,11 @@ class turtle_listener():
         # 브로드캐스터 생성
         br = tf.TransformBroadcaster()
         # turtle1 상태 tf 브로드캐스팅
-        br.sendTransform((x값, y값, z값),
-                        tf.transformations.quaternion_from_euler(roll값, pitch값, yaw값),
+        br.sendTransform((self.status_msg.x, self.status_msg.y, 0),
+                        tf.transformations.quaternion_from_euler(0,0, self.status_msg.theta),
                         rospy.Time.now(),
-                        자식 좌표계 frame,
-                        부모 좌표계 frame)
+                        "turtle",
+                        "map")
 
 if __name__ == '__main__':
     try:

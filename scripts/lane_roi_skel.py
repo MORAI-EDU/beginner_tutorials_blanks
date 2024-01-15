@@ -16,12 +16,17 @@ class Lane_roi:
         self.result = None
         self.crop_pts = np.array(
             [[
-                [0,180],
-                [140,120],
-                [180,120],
-                [320,180]
+                [0,0],
+                [0,0],
+                [0,0],
+                [0,0]
             ]]
         )
+        if np.sum(self.crop_pts) == 0:
+            print("you need to change values at line 19~22 : masking points")
+            exit()
+
+
 
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():

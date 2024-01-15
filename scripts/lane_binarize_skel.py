@@ -36,9 +36,12 @@ class Lane_binarize:
 
         img_hsv = cv2.cvtColor(self.img_bgr, cv2.COLOR_BGR2HSV)
 
-        lower_wlane = np.array([0,0,185])
+        lower_wlane = np.array([0,0,0])
         upper_wlane = np.array([30,60,255])
-
+        if np.sum(lower_wlane) == 0:
+            print("you need to find the right value : line 39 ~ 40")
+            exit()
+        
         img_wlane = cv2.inRange(img_hsv, lower_wlane, upper_wlane)
 
         img_wlane = cv2.cvtColor(img_wlane, cv2.COLOR_GRAY2BGR)
