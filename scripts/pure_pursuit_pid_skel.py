@@ -2,14 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-import os
-import numpy as np
+import rospkg
 from math import cos,sin,pi,sqrt,pow,atan2
-
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Point,PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry,Path
 from morai_msgs.msg import CtrlCmd, EgoVehicleStatus
-from tf.transformations import euler_from_quaternion
+import numpy as np
+import tf
+from tf.transformations import euler_from_quaternion,quaternion_from_euler
+import os
 
 
 class pidControl:
@@ -41,7 +42,7 @@ class pure_pursuit :
 
 
         
-        self.ctrl_cmd_pub = rospy.Publisher('ctrl_cmd',CtrlCmd, queue_size=1)
+        self.ctrl_cmd_pub = rospy.Publisher('ctrl_cmd_0',CtrlCmd, queue_size=1)
         self.ctrl_cmd_msg=CtrlCmd()
         self.ctrl_cmd_msg.longlCmdType=1
 
@@ -59,6 +60,7 @@ class pure_pursuit :
         if self.vehicle_length is None or self.lfd is None:
             print("you need to change values at line 57~58 ,  self.vegicle_length , lfd")
             exit()
+
         self.pid_controller = pidControl()
 
         rate = rospy.Rate(15) # 15hz
@@ -95,11 +97,7 @@ class pure_pursuit :
                 theta=atan2(local_path_point[1],local_path_point[0])
 
                 if self.is_look_forward_point :
-                    self.ctrl_cmd_msg.steering = None
-                    if self.ctrl_cmd_msg.steering is None:
-                        print("you need to change the value at line 98")
-                        exit()
-
+                    self.ctrl_cmd_msg.steering = atan2((2*self.vehicle_length*sin(theta)),self.lfd)
                     output = self.pid_controller.pid(self.target_vel, self.current_vel * 3.6)
 
                     if output > 0:

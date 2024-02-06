@@ -9,6 +9,7 @@ from sensor_msgs.msg import CompressedImage
 
 
 
+
 def warp_image(img, source_prop):
     
     image_size = (img.shape[1], img.shape[0])
@@ -50,7 +51,12 @@ class Lane_birdview:
             if not self.is_image:
                 print("[1] can't subscribe '/image_jpeg/compressed' topic... \n    please check your Camera sensor connection")
             else:
-                print(f"Caemra sensor was connected !")
+                print(f"""
+                    Please change the camera parameters as follows:\n
+                    FOV    : 90         roll  : 0.0        x : 1.8        
+                    WIDTH  : 640        pitch : 7.0        y :  0        
+                    HEIGHT : 480        yaw   : 0.0        z :  2
+                    """)
 
             self.is_image = False
             rate.sleep()

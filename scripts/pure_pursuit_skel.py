@@ -3,13 +3,13 @@
 
 import rospy, os
 import rospkg
-import numpy as np
 from math import cos,sin,pi,sqrt,pow,atan2
-
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Point,PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry,Path
 from morai_msgs.msg import CtrlCmd
-from tf.transformations import euler_from_quaternion
+import numpy as np
+import tf
+from tf.transformations import euler_from_quaternion,quaternion_from_euler
 
 
 class pure_pursuit :
@@ -18,20 +18,18 @@ class pure_pursuit :
         rospy.Subscriber("local_path", Path, self.path_callback)
         rospy.Subscriber("odom", Odometry, self.odom_callback)
         self.ctrl_cmd_pub = rospy.Publisher('ctrl_cmd',CtrlCmd, queue_size=1)
-        self.ctrl_cmd_msg = CtrlCmd()
-        self.ctrl_cmd_msg.longlCmdType = 2
+        self.ctrl_cmd_msg=CtrlCmd()
+        self.ctrl_cmd_msg.longlCmdType=2
 
-        self.is_path = False
-        self.is_odom = False
+        self.is_path=False
+        self.is_odom=False
 
-        self.forward_point = Point()
-        self.current_postion = Point()
-        self.is_look_forward_point = False
-        self.vehicle_length = None
-        self.lfd = None
-        if self.vehicle_length is None or self.lfd is None:
-            print("you need to change values at line 30~31 ,  self.vegicle_length , lfd")
-            exit()
+        self.forward_point=Point()
+        self.current_postion=Point()
+        self.is_look_forward_point=False
+        self.vehicle_length=1
+        self.lfd=5
+
         rate = rospy.Rate(15) # 15hz
         while not rospy.is_shutdown():
 
@@ -70,7 +68,7 @@ class pure_pursuit :
                     self.ctrl_cmd_msg.steering = None
                     if self.ctrl_cmd_msg.steering is None:
                         print("you need to change the value at line 70")
-                        exit()
+                        exit()                    
                     self.ctrl_cmd_msg.velocity = 15.0
 
                     os.system('clear')

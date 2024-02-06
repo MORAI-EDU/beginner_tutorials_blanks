@@ -39,7 +39,7 @@ class pure_pursuit :
         
         rospy.Subscriber("/odom", Odometry, self.odom_callback)
         rospy.Subscriber("/Ego_topic",EgoVehicleStatus, self.status_callback) 
-        self.ctrl_cmd_pub = rospy.Publisher('ctrl_cmd',CtrlCmd, queue_size=1)
+        self.ctrl_cmd_pub = rospy.Publisher('ctrl_cmd_0',CtrlCmd, queue_size=1)
 
         self.ctrl_cmd_msg = CtrlCmd()
         self.ctrl_cmd_msg.longlCmdType = 1
@@ -71,21 +71,25 @@ class pure_pursuit :
                 self.velocity_list = self.vel_planning.curvedBaseVelocity(self.global_path, 50)
                 break
             else:
-                print('Waiting global path data')
+                rospy.loginfo('Waiting global path data')
 
-        rate = rospy.Rate(20) # 20hz
+        rate = rospy.Rate(30) # 30hz
         while not rospy.is_shutdown():
-            os.system('clear')
+
             if self.is_path == True and self.is_odom == True and self.is_status == True:
                 prev_time = time.time()
+
                 self.current_waypoint = self.get_current_waypoint(self.status_msg,self.global_path)
                 self.target_velocity = self.velocity_list[self.current_waypoint]*3.6
+                
+
                 steering = self.calc_pure_pursuit()
                 if self.is_look_forward_point :
                     self.ctrl_cmd_msg.steering = steering
                 else : 
-                    print("no found forward point")
+                    rospy.loginfo("no found forward point")
                     self.ctrl_cmd_msg.steering = 0.0
+                
                 output = self.pid.pid(self.target_velocity,self.status_msg.velocity.x*3.6)
 
                 if output > 0.0:
@@ -98,11 +102,7 @@ class pure_pursuit :
                 #TODO: (8) 제어입력 메세지 Publish
                 print(steering)
                 self.ctrl_cmd_pub.publish(self.ctrl_cmd_msg)
-            else:
-                print(f"self.is_path (/lattice_path) : {self.is_path}")
-                print(f"self.is_status (/Ego_topic)  : {self.is_status}")
-                print(f"self.is_odom (/odom)         : {self.is_odom}")
-
+                
             rate.sleep()
 
     def path_callback(self,msg):
@@ -176,10 +176,7 @@ class pure_pursuit :
         
         #TODO: (4) Steering 각도 계산
         theta = atan2(local_path_point[1],local_path_point[0])
-        steering = None
-        if steering is None:
-            print("[ERROR] you need to change pure_pursuit at line 179 : calcu_steering !")
-            exit()
+        steering = atan2((2*self.vehicle_length*sin(theta)),self.lfd)
 
         return steering
 

@@ -1,9 +1,9 @@
 <launch>
     <node pkg="beginner_tutorials" type="global_path_pub.py" name="read_path_pub"  />
-    <node pkg="beginner_tutorials" type="gpsimu_parser.py" name="GPS_IMU_parser" />
+    <node pkg="beginner_tutorials" type="gpsimu_parser.py" name="GPS_IMU_parser" output="screen"/>
     <node pkg="beginner_tutorials" type="local_path_pub.py" name="path_pub" />    
     <node pkg="beginner_tutorials" type="lattice_planner.py" name="lattice_planner" output="screen"/>
-    <node pkg="beginner_tutorials" type="pure_pursuit_pid_velocity_planning.py" name="pure_pursuit"/>
+    <node pkg="beginner_tutorials" type="pure_pursuit_pid_velocity_planning.py" name="pure_pursuit_pid_velocity_planning" output="screen"/>
 
     <node pkg="beginner_tutorials" type="mgeo_pub.py" name="mgeo_pub"  />
     <node pkg="beginner_tutorials" type="tf_pub.py" name="tf"  />

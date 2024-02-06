@@ -104,7 +104,7 @@ class BaseLine(object): # super method의 argument로 전달되려면 object를 
     def decimate_points(self, decimation):
         _indx_del = list()
         for i in range(len(self.points)):
-            if (i % decimation) != 0:
+            if i % decimation is not 0:
                 _indx_del.append(i)
             if i == len(self.points) - 1:
                 _indx_del.pop()

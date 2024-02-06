@@ -30,6 +30,7 @@ class IMGParser:
         self.img_lane = None
         self.edges = None
 
+        #####################################################################
         self.lower_wlane = np.array([0,0,0])
         self.upper_wlane = np.array([0,0,0])
 
@@ -42,7 +43,9 @@ class IMGParser:
         np.sum(self.lower_ylane) == 0 or np.sum(self.upper_ylane) == 0 or \
         np.sum(self.crop_pts) == 0:
             print("you need to find the right value : check lines at 33 ~ 39")
-            exit()
+            exit()    
+                                                  
+        #####################################################################
     
 
     def callback(self, msg):
@@ -58,26 +61,28 @@ class IMGParser:
 
         return self.img_lane
 
-    def mask_roi(self, img):
-        h = img.shape[0]
-        w = img.shape[1]
+    def warp_image(self, img, source_prop):
         
-        if len(img.shape)==3:
-            # num of channel = 3
-            c = img.shape[2]
-            mask = np.zeros((h, w, c), dtype=np.uint8)
-            mask_value = (255, 255, 255)
+        image_size = (img.shape[1], img.shape[0])
 
-        else:
-            # grayscale
-            c = img.shape[2]
-            mask = np.zeros((h, w, c), dtype=np.uint8)
-            mask_value = (255)
+        x = img.shape[1]
+        y = img.shape[0]
+        
+        destination_points = np.float32([
+        [0, y],
+        [0, 0],
+        [x, 0],
+        [x, y]
+        ])
 
-        cv2.fillPoly(mask, self.crop_pts, mask_value)
-        mask = cv2.bitwise_and(mask, img)
+        source_points = source_prop * np.float32([[x, y]]* 4)
+        
+        perspective_transform = cv2.getPerspectiveTransform(source_points, destination_points)
+        
+        warped_img = cv2.warpPerspective(img, perspective_transform, image_size, flags=cv2.INTER_LINEAR)
+        
+        return warped_img
 
-        return mask
 
 
 def rotationMtx(yaw, pitch, roll):
@@ -309,7 +314,7 @@ class CURVEFit:
         self,
         order=3,
         alpha=10,
-        lane_width=4,
+        lane_width=13,
         y_margin=0.5,
         x_range=5,
         dx=0.5,
@@ -442,8 +447,11 @@ class CURVEFit:
         return x_pred, y_pred_l, y_pred_r
 
     def update_lane_width(self, y_pred_l, y_pred_r):
+        temp = np.clip(np.max(y_pred_l-y_pred_r), 3.5, 5)
 
-        self.lane_width = np.clip(np.max(y_pred_l-y_pred_r), 3.5, 5)
+        self.lane_width = 13 if temp < 10 else temp
+
+            
     
     def write_path_msg(self, x_pred, y_pred_l, y_pred_r, frame_id='/map'):
 
@@ -503,7 +511,7 @@ if __name__ == '__main__':
 
     image_parser = IMGParser()
     bev_op = BEVTransform(params_cam=params_cam)
-    curve_learner = CURVEFit(order=3, lane_width=3.5 ,y_margin=1, x_range=30, min_pts=50)
+    curve_learner = CURVEFit(order=3, lane_width=13 ,y_margin=1, x_range=30, min_pts=50)
 
     rate = rospy.Rate(10)
 
@@ -512,9 +520,7 @@ if __name__ == '__main__':
 
         if image_parser.img_bgr is not None:
             
-            img_crop = image_parser.mask_roi(image_parser.img_bgr)
-
-            img_warp = bev_op.warp_bev_img(img_crop)
+            img_warp = image_parser.warp_image(image_parser.img_bgr, image_parser.source_prop)
 
             img_lane = image_parser.binarize(img_warp)
 

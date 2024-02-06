@@ -13,7 +13,6 @@ class Lane_roi:
         rospy.init_node('lane_roi', anonymous=True)
         self.image_sub = rospy.Subscriber("/image_jpeg/compressed", CompressedImage, self.callback)
         self.is_image = False
-        self.result = None
         self.crop_pts = np.array(
             [[
                 [0,0],
@@ -26,8 +25,6 @@ class Lane_roi:
             print("you need to change values at line 19~22 : masking points")
             exit()
 
-
-
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
             os.system('clear')
@@ -35,11 +32,8 @@ class Lane_roi:
                 cv2.destroyAllWindows()
                 print("[1] can't subscribe '/image_jpeg/compressed' topic... \n    please check your Camera sensor connection")
             else:
-                cv2.imshow("Image window", self.result)
-                cv2.waitKey(1)
                 print(f"Caemra sensor was connected !")
 
-            self.is_image = False
             rate.sleep()
 
 
@@ -57,7 +51,8 @@ class Lane_roi:
         else:
             img_concat = np.concatenate([img_bgr, cv2.cvtColor(self.mask, cv2.COLOR_GRAY2BGR)], axis=1)
 
-        self.result = img_concat
+        cv2.imshow("lane_roi", img_concat)
+        cv2.waitKey(1)
 
     def mask_roi(self, img):
 
