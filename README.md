@@ -1,3 +1,8 @@
+버전 내역
+- [v1.0 (2024.02)]()
+- [v0.3 (2023.03)](https://github.com/MORAI-EDU/beginner_tutorials_blanks/releases/tag/v0.3.0)
+
+---
 #### 1. s_drive
 
 ```python
