@@ -37,11 +37,11 @@ class IMGParser:
         self.lower_ylane = np.array([0,0,0])
         self.upper_ylane = np.array([0,0,0])
 
-        self.crop_pts = np.array([[[0,0],[0,0],[0,0],[0,0]]])
+        self.source_prop = np.float32([[[0,0],[0,0],[0,0],[0,0]]])
         
         if np.sum(self.lower_wlane) == 0 or np.sum(self.upper_wlane) == 0 or \
         np.sum(self.lower_ylane) == 0 or np.sum(self.upper_ylane) == 0 or \
-        np.sum(self.crop_pts) == 0:
+        np.sum(self.source_prop) == 0:
             print("you need to find the right value : check lines at 33 ~ 39")
             exit()    
                                                   
