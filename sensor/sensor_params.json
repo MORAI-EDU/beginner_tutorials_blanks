@@ -3,14 +3,14 @@
     {
         "ENGINE": "UNITY",
         "TYPE": "JPG",
-        "WIDTH": 640,
-        "HEIGHT": 480,
+        "WIDTH": 320,
+        "HEIGHT": 240,
         "FOV": 90,
         "X": 1.80,
         "Y": 0,
-        "Z": 2,
+        "Z": 1.50,
         "YAW": 0,
-        "PITCH": 7.0,
+        "PITCH": 5.0,
         "ROLL": 0
     }
 }
