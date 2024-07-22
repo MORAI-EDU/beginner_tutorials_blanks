@@ -16,7 +16,7 @@ class s_drive():
         rospy.init_node('collision_avoid', anonymous=True)
         
         # publisher
-        self.cmd_pub = rospy.Publisher('/ctrl_cmd_0', CtrlCmd, queue_size=1)
+        self.cmd_pub = rospy.Publisher('/ctrl_cmd', CtrlCmd, queue_size=1)
         
         # subscriber
         rospy.Subscriber('/CollisionData', CollisionData, self.collision_callback)

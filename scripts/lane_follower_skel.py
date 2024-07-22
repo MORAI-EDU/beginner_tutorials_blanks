@@ -19,7 +19,7 @@ class PurePursuit :
         rospy.init_node('lane_follower', anonymous=True)
         self.status_sub = rospy.Subscriber("/Ego_topic", EgoVehicleStatus, self.status_callback)
         self.lpath_sub = rospy.Subscriber('/lane_path', Path, self.lane_path_callback)
-        self.cmd_pub = rospy.Publisher('/ctrl_cmd_0', CtrlCmd, queue_size=1)
+        self.cmd_pub = rospy.Publisher('/ctrl_cmd', CtrlCmd, queue_size=1)
         
         self.is_status = False
         self.is_lpath = False
